@@ -69,7 +69,7 @@ Person(<u>cc</u>, name, gender, birth\_date, email, address\_line\_1, address\_l
 &emsp;&emsp;NOT NULL(zipcode)  
 &emsp;&emsp;NOT NULL(profile\_image\_path)  
 &emsp;&emsp;gender: ENUM  
-&emsp;&emsp;IC-7, IC-51, IC-75, IC-76, IC-134, IC-170, IC-216, IC-217, IC-218  
+&emsp;&emsp;IC-7, IC-51, IC-75, IC-76, IC-134, IC-170  
 &nbsp;  
 person\_phone\_number(<u>cc, phone\_number</u>)  
 &emsp;&emsp;cc: FK(Person)  
@@ -704,7 +704,7 @@ Asset(<u>asset\_code</u>, is\_active, disposal\_date, location, technical\_chara
 &emsp;&emsp;NOT NULL(supplier)  
 &emsp;&emsp;category\_name: FK(Asset\_Category)  
 &emsp;&emsp;NOT NULL(category\_name)  
-&emsp;&emsp;IC-43, IC-120, IC-121, IC-175, IC-176, IC-177, IC-195  
+&emsp;&emsp;IC-43, IC-120, IC-121, IC-175, IC-176, IC-177  
 &nbsp;  
 &nbsp;  
 Intervention\_Status(<u>status\_name</u>)  
@@ -727,7 +727,7 @@ Intervention(<u>asset\_code, intervention\_date</u>, description, status\_name, 
 &emsp;&emsp;NOT NULL(category\_name)  
 &emsp;&emsp;NOT NULL(status\_name)  
 &emsp;&emsp;cc\_who\_regists: FK(Collaborator)  
-&emsp;&emsp;IC-122, IC-126, IC-127, IC-128, IC-129, IC-132, IC-173, IC-174, IC-175, IC-322  
+&emsp;&emsp;IC-122, IC-126, IC-127, IC-128, IC-129, IC-132, IC-173, IC-174, IC-175  
 &nbsp;  
 &nbsp;  
 Email(<u>asset\_code, date\_time</u>, subject, storage\_path, cc\_who\_upload)  
@@ -735,7 +735,7 @@ Email(<u>asset\_code, date\_time</u>, subject, storage\_path, cc\_who\_upload)
 &emsp;&emsp;NOT NULL(subject),  
 &emsp;&emsp;NOT NULL(storage\_path)  
 &emsp;&emsp;cc\_who\_upload: FK(Collaborator)  
-&emsp;&emsp;IC-67, IC-118, IC-176, IC-178, IC-180, IC-182, IC-321  
+&emsp;&emsp;IC-67, IC-118, IC-176, IC-178, IC-180, IC-182  
 &nbsp;  
 &nbsp;  
 Document(<u>asset\_code, filename,</u>&nbsp;date, file\_path)  
@@ -776,9 +776,9 @@ Expense(<u>asset\_code, intervention\_date, date</u>, description, associated\_c
 &emsp;&emsp;NOT NULL(description)  
 &emsp;&emsp;expense\_type\_name: FK(Expense\_Type)  
 &emsp;&emsp;NOT NULL(expense\_type\_name)  
-&emsp;&emsp;IC-124, IC-173, IC-196, IC-456  
+&emsp;&emsp;IC-124, IC-173  
 &nbsp;  
 Alert(<u>asset\_code, intervention\_date, alert\_date</u>, advance\_notification\_period)  
 &emsp;&emsp;asset\_code, intervention\_date: FK(Intervention)  
 &emsp;&emsp;NOT NULL(advance\_notification\_period)  
-&emsp;&emsp;IC-119, IC-123, IC-131, IC-174, IC-197  
+&emsp;&emsp;IC-119, IC-123, IC-131, IC-174  
