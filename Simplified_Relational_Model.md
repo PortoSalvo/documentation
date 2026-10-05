@@ -775,7 +775,7 @@ Asset(<u>id</u>, asset\_code, is\_active, disposal\_date, location, technical\_c
 &nbsp;  
 &emsp;&emsp;UNIQUE(asset\_code)  
 &nbsp;  
-&emsp;&emsp;IC-42, IC-119, IC-120, IC-167, IC-168, IC-169, IC-185  
+&emsp;&emsp;IC-42, IC-119, IC-120, IC-167, IC-168, IC-169  
 &nbsp;  
 Intervention\_Status(<u>status\_id</u>, status\_name)  
 &emsp;&emsp;NOT NULL(status\_name)  
@@ -886,7 +886,7 @@ Expense(<u>id</u>, intervention\_id, date, description, associated\_cost, expens
 &nbsp;  
 &emsp;&emsp;expense\_type\_id: FK(Expense\_Type)  
 &nbsp;  
-&emsp;&emsp;IC-123, IC-165, IC-186  
+&emsp;&emsp;IC-123, IC-165  
 &nbsp;  
 &nbsp;  
 Alert(<u>id</u>, intervention\_id, alert\_date, advance\_notification\_period)  
@@ -897,4 +897,4 @@ Alert(<u>id</u>, intervention\_id, alert\_date, advance\_notification\_period)
 &nbsp;  
 &emsp;&emsp;NOT NULL(advance\_notification\_period)  
 &nbsp;  
-&emsp;&emsp;IC-118, IC-122, IC-130, IC-166, IC-187  
+&emsp;&emsp;IC-118, IC-122, IC-130, IC-166  
