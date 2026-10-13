@@ -69,7 +69,7 @@ Person(<u>cc</u>, name, gender, birth\_date, email, address\_line\_1, address\_l
 &emsp;&emsp;NOT NULL(zipcode)  
 &emsp;&emsp;NOT NULL(profile\_image\_path)  
 &emsp;&emsp;gender: ENUM  
-&emsp;&emsp;IC-7, IC-51, IC-75, IC-76, IC-134, IC-170  
+&emsp;&emsp;IC-7, IC-51, IC-75, IC-76, IC-134, IC-170, IC-216, IC-217, IC-218  
 &nbsp;  
 person\_phone\_number(<u>cc, phone\_number</u>)  
 &emsp;&emsp;cc: FK(Person)  
@@ -359,27 +359,28 @@ Child\_Occurrence\_Category(<u>occ\_category\_name</u>, is\_active)
 &emsp;&emsp;NOT NULL(is\_active)  
 &emsp;&emsp;IC-23, IC-152  
 &nbsp;  
-Occurrence(<u>occ\_number</u>,&nbsp;occ\_date\_time,&nbsp;description, coll\_cc)  
+Occurrence(<u>occ\_number</u>, occ\_date\_time, description, coll\_cc, corrects\_occ\_number, voided\_by\_cc, voided\_at)  
+&emsp;&emsp;corrects\_occ\_number: FK(Occurrence)  
 &emsp;&emsp;coll\_cc: FK(Collaborator)  
+&emsp;&emsp;voided\_by\_cc: FK(Collaborator)  
 &emsp;&emsp;NOT NULL(occ\_date\_time)  
 &emsp;&emsp;NOT NULL(coll\_cc)  
-&emsp;&emsp;IC-150, IC-151  
+&emsp;&emsp;UNIQUE(corrects\_occ\_number)  
+&emsp;&emsp;IC-150, IC-151, IC-197, IC-198, IC-199, IC-200, IC-201, IC-202  
 &nbsp;  
 Patient\_Occurrence(<u>occ\_number</u><u>,</u>&nbsp;<u>patient\_cc</u>, occ\_category\_name)  
 &emsp;&emsp;occ\_number: FK(Occurrence)  
 &emsp;&emsp;patient\_cc: FK(Patient)  
 &emsp;&emsp;occ\_category\_name: FK(Patient\_Occurrence\_Category)  
 &emsp;&emsp;NOT NULL(occ\_category\_name)  
-&emsp;&emsp;UNIQUE(patient\_cc, occ\_date\_time, occ\_category\_name)  
-&emsp;&emsp;IC-150, IC-151, IC-153  
+&emsp;&emsp;IC-150, IC-151, IC-153, IC-198, IC-199  
 &nbsp;  
 Child\_Occurrence(<u>occ\_number</u><u>, child\_</u><u>cc</u>,&nbsp;occ\_category\_name)  
 &emsp;&emsp;occ\_number: FK(Occurrence)  
 &emsp;&emsp;child\_cc: FK(Child)  
 &emsp;&emsp;occ\_category\_name: FK(Child\_Occurrence\_Category)  
 &emsp;&emsp;NOT NULL(occ\_category\_name)  
-&emsp;&emsp;UNIQUE(child\_cc, occ\_date\_time, occ\_category\_name)  
-&emsp;&emsp;IC-150, IC-151, IC-163  
+&emsp;&emsp;IC-150, IC-151, IC-163, IC-198, IC-199  
 &nbsp;  
 **\#\# Services, Tasks and Visits (Home Care Service and Senior Day Care)**  
 &nbsp;  
@@ -559,28 +560,41 @@ home\_care\_collaborator\_swap\_acceptance(<u>request\_number,</u>&nbsp;<u>from\
 &nbsp;  
 **\#\# Child Specifics**  
 &nbsp;  
-Feeding(<u>child\_cc, date\_time</u>, is\_lunch, observations,&nbsp;auxiliar\_cc)  
-&emsp;&emsp;<u>child\_cc</u>: FK(Child)  
+Feeding(<u>feeding\_number</u>, child\_cc, date\_time, is\_lunch, observations, auxiliar\_cc, corrects\_feeding\_number, created\_at, voided\_by\_cc, voided\_at)  
+&emsp;&emsp;child\_cc: FK(Child)  
+&emsp;&emsp;corrects\_feeding\_number: FK(Feeding)  
 &emsp;&emsp;auxiliar\_cc: FK(Collaborator)  
+&emsp;&emsp;voided\_by\_cc: FK(Collaborator)  
+&emsp;&emsp;NOT NULL(child\_cc)  
+&emsp;&emsp;NOT NULL(date\_time)  
 &emsp;&emsp;NOT NULL(is\_lunch)  
 &emsp;&emsp;NOT NULL(auxiliar\_cc)  
-&emsp;&emsp;IC-164  
+&emsp;&emsp;NOT NULL(created\_at)  
+&emsp;&emsp;UNIQUE(corrects\_feeding\_number)  
+&emsp;&emsp;IC-164, IC-197, IC-198, IC-199, IC-200, IC-201, IC-202  
 &nbsp;  
-Hygiene(<u>child\_cc, date\_time</u>,&nbsp;auxiliar\_cc, hygiene\_type)  
+Hygiene(<u>hygiene\_number</u>, child\_cc, date\_time, auxiliar\_cc, hygiene\_type, corrects\_hygiene\_number, observations, created\_at, voided\_by\_cc, voided\_at)  
 &emsp;&emsp;child\_cc: FK(Child)  
-&emsp;&emsp;type: enum  
+&emsp;&emsp;corrects\_hygiene\_number: FK(Hygiene)  
+&emsp;&emsp;hygiene\_type: enum  
 &emsp;&emsp;auxiliar\_cc: FK(Collaborator)  
+&emsp;&emsp;voided\_by\_cc: FK(Collaborator)  
+&emsp;&emsp;NOT NULL(child\_cc)  
+&emsp;&emsp;NOT NULL(date\_time)  
 &emsp;&emsp;NOT NULL(auxiliar\_cc)  
-&emsp;&emsp;NOT NULL (type)  
-&emsp;&emsp;IC-33, IC-165  
+&emsp;&emsp;NOT NULL (hygiene\_type)  
+&emsp;&emsp;NOT NULL(created\_at)  
+&emsp;&emsp;UNIQUE(corrects\_hygiene\_number)  
+&emsp;&emsp;IC-33, IC-165, IC-197, IC-198, IC-199, IC-200, IC-201, IC-202  
 &nbsp;  
-Attendance(<u>child\_cc, date\_time</u>,&nbsp;auxiliar\_cc,&nbsp;companion\_cc, is\_entry)  
+Attendance(<u>child\_cc, date\_time, created\_at</u>, auxiliar\_cc, companion\_cc, is\_entry, voided\_by\_cc, voided\_at)  
 &emsp;&emsp;child\_cc: FK(Child)  
 &emsp;&emsp;auxiliar\_cc: FK(Collaborator)  
 &emsp;&emsp;companion\_cc: FK(Person)  
+&emsp;&emsp;voided\_by\_cc: FK(Collaborator)  
 &emsp;&emsp;NOT NULL(auxiliar\_cc)  
 &emsp;&emsp;NOT NULL(is\_entry)  
-&emsp;&emsp;IC-66,&nbsp;IC-166, IC-185, IC-186  
+&emsp;&emsp;IC-66, IC-166, IC-185, IC-186, IC-200, IC-201, IC-203  
 &nbsp;  
 &nbsp;  
 Activity\_Session(<u>date,</u>&nbsp;<u>is\_in\_the\_m</u><u>orning</u><u>, name</u>,&nbsp;description,&nbsp;auxiliar\_cc)  
@@ -704,7 +718,7 @@ Asset(<u>asset\_code</u>, is\_active, disposal\_date, location, technical\_chara
 &emsp;&emsp;NOT NULL(supplier)  
 &emsp;&emsp;category\_name: FK(Asset\_Category)  
 &emsp;&emsp;NOT NULL(category\_name)  
-&emsp;&emsp;IC-43, IC-120, IC-121, IC-175, IC-176, IC-177  
+&emsp;&emsp;IC-43, IC-120, IC-121, IC-175, IC-176, IC-177, IC-195  
 &nbsp;  
 &nbsp;  
 Intervention\_Status(<u>status\_name</u>)  
@@ -727,7 +741,7 @@ Intervention(<u>asset\_code, intervention\_date</u>, description, status\_name, 
 &emsp;&emsp;NOT NULL(category\_name)  
 &emsp;&emsp;NOT NULL(status\_name)  
 &emsp;&emsp;cc\_who\_regists: FK(Collaborator)  
-&emsp;&emsp;IC-122, IC-126, IC-127, IC-128, IC-129, IC-132, IC-173, IC-174, IC-175  
+&emsp;&emsp;IC-122, IC-126, IC-127, IC-128, IC-129, IC-132, IC-173, IC-174, IC-175, IC-322  
 &nbsp;  
 &nbsp;  
 Email(<u>asset\_code, date\_time</u>, subject, storage\_path, cc\_who\_upload)  
@@ -735,7 +749,7 @@ Email(<u>asset\_code, date\_time</u>, subject, storage\_path, cc\_who\_upload)
 &emsp;&emsp;NOT NULL(subject),  
 &emsp;&emsp;NOT NULL(storage\_path)  
 &emsp;&emsp;cc\_who\_upload: FK(Collaborator)  
-&emsp;&emsp;IC-67, IC-118, IC-176, IC-178, IC-180, IC-182  
+&emsp;&emsp;IC-67, IC-118, IC-176, IC-178, IC-180, IC-182, IC-321  
 &nbsp;  
 &nbsp;  
 Document(<u>asset\_code, filename,</u>&nbsp;date, file\_path)  
@@ -776,9 +790,9 @@ Expense(<u>asset\_code, intervention\_date, date</u>, description, associated\_c
 &emsp;&emsp;NOT NULL(description)  
 &emsp;&emsp;expense\_type\_name: FK(Expense\_Type)  
 &emsp;&emsp;NOT NULL(expense\_type\_name)  
-&emsp;&emsp;IC-124, IC-173  
+&emsp;&emsp;IC-124, IC-173, IC-196, IC-456  
 &nbsp;  
 Alert(<u>asset\_code, intervention\_date, alert\_date</u>, advance\_notification\_period)  
 &emsp;&emsp;asset\_code, intervention\_date: FK(Intervention)  
 &emsp;&emsp;NOT NULL(advance\_notification\_period)  
-&emsp;&emsp;IC-119, IC-123, IC-131, IC-174  
+&emsp;&emsp;IC-119, IC-123, IC-131, IC-174, IC-197  
