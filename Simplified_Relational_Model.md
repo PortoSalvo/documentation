@@ -355,29 +355,31 @@ Child\_Occurrence\_Category(<u>occ\_category\_id</u>, is\_active)
 &emsp;&emsp;NOT NULL(is\_active)  
 &emsp;&emsp;IC-22, IC-148  
 &nbsp;  
-Occurrence(<u>occ\_number</u>, occ\_date\_time, description, coll\_id)  
+Occurrence(<u>occ\_number</u>, occ\_date\_time, description, coll\_id, created\_at, corrects\_occ\_number, voided\_by, voided\_at)  
 &emsp;&emsp;coll\_id: FK(Collaborator)  
+&emsp;&emsp;corrects\_occ\_number: FK(Occurrence)  
+&emsp;&emsp;voided\_by: FK(Collaborator)  
 &emsp;&emsp;NOT NULL(occ\_date\_time)  
 &emsp;&emsp;NOT NULL(coll\_id)  
-&emsp;&emsp;C-146, IC-147  
+&emsp;&emsp;NOT NULL(created\_at)  
+&emsp;&emsp;UNIQUE(corrects\_occ\_number)  
+&emsp;&emsp;IC-146, IC-147, IC-190, IC-191, IC-192, IC-193, IC-194, IC-195  
 &nbsp;  
 Patient\_Occurrence(<u>occ\_number</u>, patient\_id, occ\_category\_id)  
 &emsp;&emsp;occ\_number: FK(Occurrence)  
 &emsp;&emsp;patient\_id: FK(Patient)  
-&emsp;&emsp;occ\_category\_name: FK(Patient\_Occurrence\_Category)  
+&emsp;&emsp;occ\_category\_id: FK(Patient\_Occurrence\_Category)  
 &emsp;&emsp;NOT NULL(patient\_id)  
 &emsp;&emsp;NOT NULL(occ\_category\_id)  
-&emsp;&emsp;UNIQUE(patient\_id, occ\_date\_time, occ\_category\_id)  
-&emsp;&emsp;IC-146, IC-147, IC-157  
+&emsp;&emsp;IC-146, IC-147, IC-157, IC-191, IC-192  
 &nbsp;  
 Child\_Occurrence(<u>occ\_number</u>, child\_id, occ\_category\_id)  
 &emsp;&emsp;occ\_number: FK(Occurrence)  
 &emsp;&emsp;child\_id: FK(Child)  
-&emsp;&emsp;occ\_category\_name: FK(Child\_Occurrence\_Category)  
+&emsp;&emsp;occ\_category\_id: FK(Child\_Occurrence\_Category)  
 &emsp;&emsp;NOT NULL(child\_id)  
 &emsp;&emsp;NOT NULL(occ\_category\_id)  
-&emsp;&emsp;UNIQUE(child\_id, occ\_date\_time, occ\_category\_id)  
-&emsp;&emsp;IC-146, IC-147, IC-167  
+&emsp;&emsp;IC-146, IC-147, IC-167, IC-191, IC-192  
 &nbsp;  
 &nbsp;  
 &nbsp;  
@@ -574,33 +576,44 @@ Shift\_Swap(<u>request\_number</u>, from\_shift\_assignment\_id, to\_shift\_assi
 &nbsp;  
 **\#\# Child Specifics**  
 &nbsp;  
-Feeding(<u>id</u>, child\_id, auxiliar\_id, occurred\_at, is\_lunch, observations)  
+Feeding(<u>id</u>, child\_id, auxiliar\_id, occurred\_at, is\_lunch, observations, created\_at, corrects\_id, voided\_by, voided\_at)  
 &emsp;&emsp;child\_id: FK(Child)  
+&emsp;&emsp;NOT NULL (child\_id)  
 &emsp;&emsp;auxiliar\_id: FK(Collaborator)  
+&emsp;&emsp;corrects\_id: FK(Feeding)  
+&emsp;&emsp;voided\_by: FK(Collaborator)  
 &emsp;&emsp;NOT NULL(is\_lunch)  
 &emsp;&emsp;NOT NULL(auxiliar\_id)  
 &emsp;&emsp;NOT NULL(occurred\_at)  
-&emsp;&emsp;UNIQUE(child\_id, occurred\_at)  
-&emsp;&emsp;IC-156  
+&emsp;&emsp;NOT NULL(created\_at)  
+&emsp;&emsp;UNIQUE(corrects\_id)  
+&emsp;&emsp;IC-156, IC-190, IC-191, IC-192, IC-193, IC-194, IC-195  
 &nbsp;  
-Hygiene(<u>id</u>, child\_id, occurred\_at, auxiliar\_id, hygiene\_type)  
+Hygiene(<u>id</u>, child\_id, occurred\_at, auxiliar\_id, hygiene\_type, created\_at, corrects\_id, observations, voided\_by, voided\_at)  
 &emsp;&emsp;child\_id: FK(Child)  
+&emsp;&emsp;NOT NULL (child\_id)  
 &emsp;&emsp;auxiliar\_id: FK(Collaborator)  
+&emsp;&emsp;corrects\_id: FK(Hygiene)  
+&emsp;&emsp;voided\_by: FK(Collaborator)  
 &emsp;&emsp;NOT NULL (auxiliar\_id)  
-&emsp;&emsp;NOT NULL (type)  
 &emsp;&emsp;NOT NULL(hygiene\_type)  
-&emsp;&emsp;UNIQUE(child\_id, occurred\_at)  
-&emsp;&emsp;IC-32,&nbsp;IC-157  
+&emsp;&emsp;UNIQUE(corrects\_id)  
+&emsp;&emsp;NOT NULL(created\_at)  
+&emsp;&emsp;NOT NULL(occurred\_at)  
+&emsp;&emsp;IC-32, IC-157, IC-190, IC-191, IC-192, IC-193, IC-194, IC-195  
 &nbsp;  
-Attendance(<u>id</u>, child\_id, occurred\_at, auxiliar\_id, companion\_id, is\_entry)  
+Attendance(<u>id</u>, child\_id, occurred\_at, auxiliar\_id, companion\_id, is\_entry, created\_at, voided\_by, voided\_at)  
 &emsp;&emsp;child\_id: FK(Child)  
 &emsp;&emsp;auxiliar\_id: FK(Collaborator)  
 &emsp;&emsp;companion\_id: FK(Person)  
+&emsp;&emsp;voided\_by: FK(Collaborator)  
 &emsp;&emsp;NOT NULL(auxiliar\_id)  
 &emsp;&emsp;NOT NULL(is\_entry)  
 &emsp;&emsp;NOT NULL(occurred\_at)  
-&emsp;&emsp;UNIQUE(child\_id, occurred\_at)  
-&emsp;&emsp;IC-65,&nbsp;IC-158, IC-177, IC-178  
+&emsp;&emsp;NOT NULL(child\_id)  
+&emsp;&emsp;NOT NULL(created\_at)  
+&emsp;&emsp;UNIQUE(child\_id, occurred\_at, created\_at)  
+&emsp;&emsp;IC-65, IC-158, IC-177, IC-178, IC-193, IC-194, IC-196  
 &nbsp;  
 Activity\_Session(<u>id</u>, activity\_id, auxiliar\_id, date, is\_in\_the\_morning,&nbsp;description)  
 &emsp;&emsp;auxiliar\_id: FK(Collaborator)  
@@ -680,8 +693,7 @@ Evaluation\_Subcategory(<u>id</u>, category\_id, name, is\_active)
 &emsp;&emsp;UNIQUE(category\_id, name)  
 &emsp;&emsp;IC-38, IC-39, IC-112,&nbsp;IC-163  
 &nbsp;  
-&nbsp;  
-Milestone(<u>id</u>, name, subcategory\_id, is\_active, description, age\_group)  
+Milestone(<u>id</u>, name, subcategory\_id, is\_active, age\_group)  
 &emsp;&emsp;subcategory\_id: FK(Evaluation\_Subcategory)  
 &emsp;&emsp;NOT NULL(is\_active)  
 &emsp;&emsp;NOT NULL(name)  
@@ -690,7 +702,7 @@ Milestone(<u>id</u>, name, subcategory\_id, is\_active, description, age\_group)
 &emsp;&emsp;IC-31, IC-40,&nbsp;IC-41  
 &nbsp;  
 plan\_milestone\_status(<u>plan\_id, milestone\_id</u>, measure\_label)  
-&emsp;&emsp;plan\_id: FK(Individual\_Evaluation\_Plan)  
+&emsp;&emsp;plan\_id: FK(Individual\_Educational\_Plan)  
 &emsp;&emsp;milestone\_id: FK(Milestone)  
 &emsp;&emsp;NOT NULL(measure\_label)  
 &emsp;&emsp;UNIQUE(plan\_id, milestone\_id)  
@@ -775,7 +787,7 @@ Asset(<u>id</u>, asset\_code, is\_active, disposal\_date, location, technical\_c
 &nbsp;  
 &emsp;&emsp;UNIQUE(asset\_code)  
 &nbsp;  
-&emsp;&emsp;IC-42, IC-119, IC-120, IC-167, IC-168, IC-169  
+&emsp;&emsp;IC-42, IC-119, IC-120, IC-167, IC-168, IC-169, IC-185  
 &nbsp;  
 Intervention\_Status(<u>status\_id</u>, status\_name)  
 &emsp;&emsp;NOT NULL(status\_name)  
@@ -886,7 +898,7 @@ Expense(<u>id</u>, intervention\_id, date, description, associated\_cost, expens
 &nbsp;  
 &emsp;&emsp;expense\_type\_id: FK(Expense\_Type)  
 &nbsp;  
-&emsp;&emsp;IC-123, IC-165  
+&emsp;&emsp;IC-123, IC-165, IC-186  
 &nbsp;  
 &nbsp;  
 Alert(<u>id</u>, intervention\_id, alert\_date, advance\_notification\_period)  
@@ -897,4 +909,4 @@ Alert(<u>id</u>, intervention\_id, alert\_date, advance\_notification\_period)
 &nbsp;  
 &emsp;&emsp;NOT NULL(advance\_notification\_period)  
 &nbsp;  
-&emsp;&emsp;IC-118, IC-122, IC-130, IC-166  
+&emsp;&emsp;IC-118, IC-122, IC-130, IC-166, IC-187  
